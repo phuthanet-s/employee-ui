@@ -1,0 +1,115 @@
+<p-panel header="{{ mode }}">
+  <form [formGroup]="employeeForm">
+    <div class="grid">
+      <div class="col-2">Department</div>
+      <div class="col-4">
+        <p-dropdown
+          placeholder="Select a Department"
+          [options]="departments"
+          formControlName="department"
+          optionLabel="name"
+        >
+        </p-dropdown>
+        <small
+          *ngIf="employeeForm.get('department')?.invalid"
+          id="department-help"
+          class="p-error block"
+        >
+          <em class="pi pi-times-circle"></em> Field is required.
+        </small>
+        <!-- {{employeeForm.get('department')?.valid | json}} -->
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2">Gender</div>
+      <div class="col-6">
+        <div class="grid">
+          <div *ngFor="let item of Gender | keyvalue" class="col-2">
+            <p-radioButton
+              [value]="item.value"
+              [label]="item.value | gender"
+              formControlName="gender"
+            >
+            </p-radioButton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2">FirstName</div>
+      <div class="col-4">
+        <input type="text" pInputText formControlName="firstName" />
+        <small
+          *ngIf="employeeForm.get('firstName')?.errors?.['required']"
+          id="firstName-help"
+          class="p-error block"
+        >
+          <em class="pi pi-times-circle"></em> Field is required.
+        </small>
+        <small
+          *ngIf="employeeForm.get('firstName')?.errors?.['minlength']"
+          id="firstName-help"
+          class="p-error block"
+        >
+          <em class="pi pi-times-circle"></em> Field has minlength
+          {{employeeForm.get('firstName')?.errors?.['minlength']?.requiredLength
+
+          }}.
+        </small>
+        <small
+          *ngIf="employeeForm.get('firstName')?.errors?.['name']"
+          id="firstName-help"
+          class="p-error block"
+        >
+          <em class="pi pi-times-circle"></em> First name has uppercase first.
+        </small>
+        <!-- {{employeeForm.get('firstName')?.errors | json}} -->
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2">LastName</div>
+      <div class="col-4">
+        <input type="text" pInputText formControlName="lastName" />
+        <small
+          *ngIf="employeeForm.get('lastName')?.invalid"
+          id="lastName-help"
+          class="p-error block"
+        >
+          <em class="pi pi-times-circle"></em> Field is required.
+        </small>
+      </div>
+    </div>
+    <div class="grid gap-3 mt-2">
+      <div class="grid-col">
+        <button
+          pButton
+          pRipple
+          label="Reset"
+          icon="pi pi-refresh"
+          (click)="resetForm()"
+        ></button>
+      </div>
+      <div class="grid-col">
+        <button
+          pButton
+          pRipple
+          [loading]="isLoading"
+          label="Save"
+          icon="pi pi-save"
+          class="p-button-success"
+          (click)="saveEmployee()"
+        ></button>
+      </div>
+      <div class="grid-col" *ngIf="Mode.EDIT === mode">
+        <button
+          pButton
+          pRipple
+          label="Remove"
+          icon="pi pi-trash"
+          class="p-button-danger"
+          (click)="deleteEmployee()"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

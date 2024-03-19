@@ -1,0 +1,14 @@
+<p>first works!</p>
+<h2>first {{name}}</h2>
+<div>
+  <input type="text" [disabled]="false" (input)="onInput($event)">
+</div>
+
+<div>
+  <input type="text" [(ngModel)]="name">
+</div>
+
+
+<p-panel header="Title">
+  <p-dropdown [options]="departments" [(ngModel)]="department" optionLabel="name"></p-dropdown>
+</p-panel>
