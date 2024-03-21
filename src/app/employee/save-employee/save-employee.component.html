@@ -1,7 +1,7 @@
 <p-panel header="{{ mode }}">
   <form [formGroup]="employeeForm">
     <div class="grid">
-      <div class="col-2">Department</div>
+      <div class="col-2">แผนก</div>
       <div class="col-4">
         <p-dropdown
           placeholder="Select a Department"
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="grid">
-      <div class="col-2">Gender</div>
+      <div class="col-2">เพศ</div>
       <div class="col-6">
         <div class="grid">
           <div *ngFor="let item of Gender | keyvalue" class="col-2">
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="grid">
-      <div class="col-2">FirstName</div>
+      <div class="col-2">ชื่อ</div>
       <div class="col-4">
         <input type="text" pInputText formControlName="firstName" />
         <small
@@ -54,20 +54,13 @@
           <em class="pi pi-times-circle"></em> Field has minlength
           {{employeeForm.get('firstName')?.errors?.['minlength']?.requiredLength
 
+
           }}.
         </small>
-        <small
-          *ngIf="employeeForm.get('firstName')?.errors?.['name']"
-          id="firstName-help"
-          class="p-error block"
-        >
-          <em class="pi pi-times-circle"></em> First name has uppercase first.
-        </small>
-        <!-- {{employeeForm.get('firstName')?.errors | json}} -->
       </div>
     </div>
     <div class="grid">
-      <div class="col-2">LastName</div>
+      <div class="col-2">นามสกุล</div>
       <div class="col-4">
         <input type="text" pInputText formControlName="lastName" />
         <small
@@ -84,7 +77,7 @@
         <button
           pButton
           pRipple
-          label="Reset"
+          label="เริ่มใหม่"
           icon="pi pi-refresh"
           (click)="resetForm()"
         ></button>
@@ -94,7 +87,7 @@
           pButton
           pRipple
           [loading]="isLoading"
-          label="Save"
+          label="บันทึก"
           icon="pi pi-save"
           class="p-button-success"
           (click)="saveEmployee()"
@@ -104,7 +97,7 @@
         <button
           pButton
           pRipple
-          label="Remove"
+          label="ลบ"
           icon="pi pi-trash"
           class="p-button-danger"
           (click)="deleteEmployee()"

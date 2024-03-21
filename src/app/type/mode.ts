@@ -1,3 +1,4 @@
 export enum Mode {
-    EDIT = 'Edit', ADD = 'Add'
+  EDIT = 'แก้ไขข้อมูล',
+  ADD = 'เพิ่มข้อมูล',
 }

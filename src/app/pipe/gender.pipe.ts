@@ -7,7 +7,7 @@ import { Gender } from '../type/gender';
 export class GenderPipe implements PipeTransform {
 
   transform(value: Gender): string {
-    return value === Gender.MALE ? 'Male' : 'Female';
+    return value === Gender.MALE ? 'ชาย' : 'หญิง';
   }
 
 }

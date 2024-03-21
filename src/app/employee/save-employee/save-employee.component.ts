@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Department } from 'src/app/model/department';
@@ -24,7 +24,6 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     firstName: new FormControl(null, [
       Validators.required,
       Validators.minLength(2),
-      customName,
     ]),
     lastName: new FormControl(null, Validators.required),
     gender: new FormControl(Gender.MALE),
@@ -41,8 +40,9 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private departmentService: DepartmentService,
     private activeRoute: ActivatedRoute,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.departmentService.callApiGetDepartment();
@@ -56,7 +56,6 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     this.subscribeEmployee = this.employeeService
       .getEmployee()
       .subscribe((response) => {
-        console.log('subscribe getEmployee patchValue', response);
         this.employeeForm.patchValue(response);
       });
 
@@ -74,30 +73,26 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     if (this.employeeForm.valid) {
       if (Mode.EDIT === this.mode) {
         this.employeeService.editEmployee(employee).subscribe({
-          next: (v) => {
-            console.log('next editEmployee');
-          },
+          next: (v) => {},
           complete: () => {
-            console.log('complete editEmployee');
             this.isLoading = false;
           },
           error: (e) => {
-            console.log('error editEmployee');
             this.isLoading = false;
           },
         });
       } else {
         this.employeeService.addEmployee(employee).subscribe({
           next: (v) => {
-            console.log('next addEmployee');
+            this.router.navigateByUrl(`/employee/edit/${v.id}`, {
+              replaceUrl: true,
+            });
           },
           complete: () => {
-            console.log('complete addEmployee');
             this.mode = Mode.EDIT;
             this.isLoading = false;
           },
           error: (e) => {
-            console.log('error addEmployee');
             this.isLoading = false;
           },
         });
@@ -117,7 +112,6 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     this.mode = mode;
     const { id } = this.activeRoute.snapshot.params;
     if (id && Mode.EDIT === mode) {
-      console.log('queryEmployeeById', id);
       this.employeeService.queryEmployeeById(id);
     }
   }
@@ -135,16 +129,15 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
   deleteEmployee() {
     const id = this.employeeForm.get('id')?.value;
     this.employeeService.deleteEmployee(id).subscribe({
-      next: (v) => {
-        console.log('next deleteEmployee');
-      },
+      next: (v) => {},
       complete: () => {
-        console.log('complete deleteEmployee');
+        this.router.navigateByUrl('/employee/save', {
+          replaceUrl: true,
+        });
         this.mode = Mode.ADD;
         this.isLoading = false;
       },
       error: (e) => {
-        console.log('error deleteEmployee');
         this.isLoading = false;
       },
     });

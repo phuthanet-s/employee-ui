@@ -84,7 +84,7 @@ export class EmployeeService {
     return this.employees$;
   }
 
-  queryEmployees(employee: Employee) {
+  queryEmployeesByCondition(employee: Employee) {
     let httpParams = new HttpParams();
     if (employee.firstName) {
       httpParams = httpParams.append('firstName', `%${employee.firstName}%`);
@@ -105,6 +105,14 @@ export class EmployeeService {
           this.employees$.next(response);
         })
       );
+  }
+
+  queryEmployees() {
+    return this.http.get<Employee[]>('/api/employee/search').pipe(
+      tap((response) => {
+        this.employees$.next(response);
+      })
+    );
   }
 
   deleteEmployee(id: number) {
