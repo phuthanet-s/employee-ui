@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { MessageService } from 'primeng/api';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Department } from 'src/app/model/department';
 import { Employee } from 'src/app/model/employee';
 import { DepartmentService } from 'src/app/service/department.service';
@@ -135,6 +135,23 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     doc.setFontSize(fontSize);
     doc.text(title, x, 10);
     this.loading = true;
+    doc.setFontSize(14);
+    const textDate =
+      'วันที่/เวลา : ' + this.employeeService.getDateFormatReport;
+    let dateWidth =
+      (doc.getStringUnitWidth(textDate.trim()) * fontSize) /
+        doc.internal.scaleFactor -
+      20;
+    doc.text(textDate, pageWidth - dateWidth, 15);
+    this.employeeService.getIpAddress().subscribe({
+      next: (v) => {
+        doc.text(`IP: ${v.ipAddress}`, pageWidth - dateWidth, 10);
+      },
+      error: (e) => {
+        console.log('error', e);
+      },
+    });
+
     this.employeeService.queryEmployees().subscribe((employees) => {
       const mappedEmployee = employees.map((item, index) => {
         return [
@@ -153,19 +170,8 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
         body: mappedEmployee,
         styles: { cellPadding: 2.5, fontSize: 18, font: 'THSarabunNew' },
       });
-      doc.save(`${this.getCurrentDate}.pdf`);
+      doc.save(`${this.employeeService.getCurrentDate}.pdf`);
       this.loading = false;
     });
-  }
-
-  get getCurrentDate() {
-    const currentDate = new Date();
-    const day = currentDate.getDate().toString().padStart(2, '0');
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = currentDate.getFullYear().toString();
-    const hours = currentDate.getHours().toString().padStart(2, '0');
-    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
-    return `${day}-${month}-${year}-${hours}-${minutes}-${seconds}`;
   }
 }
