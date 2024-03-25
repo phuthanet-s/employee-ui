@@ -55,6 +55,9 @@
           {{employeeForm.get('firstName')?.errors?.['minlength']?.requiredLength
 
 
+
+
+
           }}.
         </small>
       </div>
@@ -101,6 +104,15 @@
           icon="pi pi-trash"
           class="p-button-danger"
           (click)="deleteEmployee()"
+        ></button>
+      </div>
+      <div class="grid-col ml-auto">
+        <button
+          pButton
+          pRipple
+          label="พิมพ์"
+          icon="pi pi-print"
+          (click)="onPrint()"
         ></button>
       </div>
     </div>

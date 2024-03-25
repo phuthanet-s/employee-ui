@@ -44,7 +44,7 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     private departmentService: DepartmentService,
     private router: Router,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.departmentService.callApiGetDepartment();
@@ -81,8 +81,8 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     } else {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Warning',
-        detail: 'Please select more than 1 option.',
+        summary: 'แจ้งเตือน',
+        detail: 'โปรดเลือกมากกว่า 1 ตัวเลือก',
       });
     }
   }
@@ -94,6 +94,7 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     this.employees = [];
     this.employeesSecon = [];
     this.employeeService.searchCondition$.next(null);
+    this.loading = false;
   }
 
   onSearch() {

@@ -21,8 +21,8 @@ export class EmployeeService {
         this.employees$.next([response, ...this.employees$.value]);
         this.messageService.add({
           severity: 'success',
-          summary: 'Message',
-          detail: 'Add employee success.',
+          summary: 'ข้อความ',
+          detail: 'เพิ่มข้อมูลพนักงานเรียบร้อยแล้ว',
         });
       })
     );
@@ -40,8 +40,8 @@ export class EmployeeService {
         );
         this.messageService.add({
           severity: 'success',
-          summary: 'Message',
-          detail: 'Edit employee success.',
+          summary: 'ข้อความ',
+          detail: 'แก้ไขข้อมูลพนักงานเรียบร้อยแล้ว',
         });
       })
     );
@@ -127,8 +127,8 @@ export class EmployeeService {
         );
         this.messageService.add({
           severity: 'success',
-          summary: 'Message',
-          detail: 'Delete employee success.',
+          summary: 'ข้อความ',
+          detail: 'ลบข้อมูลพนักงานเรียบร้อยแล้ว',
         });
       })
     );
@@ -145,8 +145,8 @@ export class EmployeeService {
         );
         this.messageService.add({
           severity: 'success',
-          summary: 'Message',
-          detail: 'Delete employee success.',
+          summary: 'ข้อความ',
+          detail: 'ลบข้อมูลพนักงานเรียบร้อยแล้ว',
         });
       })
     );
