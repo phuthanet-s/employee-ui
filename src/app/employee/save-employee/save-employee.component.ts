@@ -180,10 +180,12 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
       (doc.getStringUnitWidth(textDate.trim()) * fontSize) /
         doc.internal.scaleFactor -
       20;
-    doc.text(textDate, pageWidth - dateWidth, 15);
+    doc.text(textDate, pageWidth - dateWidth, 20);
     this.employeeService.getIpAddress().subscribe({
       next: (v) => {
-        doc.text(`IP: ${v.ipAddress}`, pageWidth - dateWidth, 10);
+        const hostName = v.ipAddress.split('/');
+        doc.text(`IP: ${hostName[0]}`, pageWidth - dateWidth, 10);
+        doc.text(`DB Name: ${hostName[1]}`, pageWidth - dateWidth, 15);
       },
       error: (e) => {
         console.log('error', e);
@@ -203,7 +205,7 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
 
       const columns = ['รหัส', 'ชื่อ', 'นามสกุล', 'เพศ', 'แผนก'];
       autoTable(doc, {
-        startY: 20,
+        startY: 25,
         head: [columns],
         body: mappedEmployee,
         styles: { cellPadding: 2.5, fontSize: 18, font: 'THSarabunNew' },
