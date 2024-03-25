@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { BehaviorSubject, Subject, tap } from 'rxjs';
-import { Department } from '../model/department';
 import { Employee } from '../model/employee';
 
 @Injectable({
@@ -79,7 +78,6 @@ export class EmployeeService {
 
   // ต้องการเก็บ employees[] เอาไว้เพื่อจะได้ไม่ต้อง query ใหม่
   private employees$ = new BehaviorSubject<Employee[]>([]);
-
   getEmployees() {
     return this.employees$;
   }
@@ -113,6 +111,10 @@ export class EmployeeService {
         this.employees$.next(response);
       })
     );
+  }
+
+  getIpAddress() {
+    return this.http.get<any>('/api/employee/getIpAddress');
   }
 
   deleteEmployee(id: number) {
@@ -150,5 +152,27 @@ export class EmployeeService {
         });
       })
     );
+  }
+
+  get getCurrentDate() {
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+    return `${day}-${month}-${year}-${hours}-${minutes}-${seconds}`;
+  }
+
+  get getDateFormatReport() {
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 }
