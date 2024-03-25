@@ -44,7 +44,7 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     private messageService: MessageService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.departmentService.callApiGetDepartment();
@@ -75,7 +75,7 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     if (this.employeeForm.valid) {
       if (Mode.EDIT === this.mode) {
         this.employeeService.editEmployee(employee).subscribe({
-          next: (v) => { },
+          next: (v) => {},
           complete: () => {
             this.isLoading = false;
           },
@@ -131,7 +131,7 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
   deleteEmployee() {
     const id = this.employeeForm.get('id')?.value;
     this.employeeService.deleteEmployee(id).subscribe({
-      next: (v) => { },
+      next: (v) => {},
       complete: () => {
         this.router.navigateByUrl('/employee/save', {
           replaceUrl: true,
@@ -173,6 +173,23 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
     const x = (pageWidth - textWidth) / 2;
     doc.setFontSize(fontSize);
     doc.text(title, x, 10);
+    doc.setFontSize(14);
+    const textDate =
+      'วันที่/เวลา : ' + this.employeeService.getDateFormatReport;
+    let dateWidth =
+      (doc.getStringUnitWidth(textDate.trim()) * fontSize) /
+        doc.internal.scaleFactor -
+      20;
+    doc.text(textDate, pageWidth - dateWidth, 15);
+    this.employeeService.getIpAddress().subscribe({
+      next: (v) => {
+        doc.text(`IP: ${v.ipAddress}`, pageWidth - dateWidth, 10);
+      },
+      error: (e) => {
+        console.log('error', e);
+      },
+    });
+
     this.employeeService.queryEmployees().subscribe((employees) => {
       const mappedEmployee = employees.map((item, index) => {
         return [
@@ -191,7 +208,7 @@ export class SaveEmployeeComponent implements OnInit, OnDestroy {
         body: mappedEmployee,
         styles: { cellPadding: 2.5, fontSize: 18, font: 'THSarabunNew' },
       });
-      doc.save(`${this.getCurrentDate}.pdf`);
+      doc.save(`${this.employeeService.getCurrentDate}.pdf`);
     });
   }
 }
