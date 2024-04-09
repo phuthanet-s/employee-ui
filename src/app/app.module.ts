@@ -23,6 +23,8 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +32,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     EmployeeComponent,
     SaveEmployeeComponent,
     SearchEmployeeComponent,
-    GenderPipe
+    GenderPipe,
   ],
   imports: [
     BrowserModule,
@@ -48,11 +50,16 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ToastModule,
     ToolbarModule,
     TooltipModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ConfirmDialogModule,
   ],
   // https://www.infinetsoft.com/Post/When-reload-the-page-I-got-404-error-for-angular-10/3084#.YouOxahBy5c
   //{ provide: LocationStrategy, useClass: HashLocationStrategy }
-  providers: [MessageService, { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+  providers: [
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    ConfirmationService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

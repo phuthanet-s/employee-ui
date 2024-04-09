@@ -1,22 +1,23 @@
 <p-panel header="เงื่อนไขการค้นหา">
   <form [formGroup]="employeeForm">
-    <div class="grid">
-      <div class="col-2">แผนก</div>
-      <div class="col-4">
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">แผนก</p>
         <p-dropdown
           placeholder="เลือกแผนก"
           [options]="departments"
           formControlName="department"
           optionLabel="name"
+          class="col-12"
         >
         </p-dropdown>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">เพศ</div>
-      <div class="col-6">
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">เพศ</p>
         <div class="grid">
-          <div *ngFor="let item of Gender | keyvalue" class="col-2">
+          <div *ngFor="let item of Gender | keyvalue" class="col-3">
             <p-radioButton
               [value]="item.value"
               [label]="item.value | gender"
@@ -27,26 +28,36 @@
         </div>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">ชื่อ</div>
-      <div class="col-4">
-        <input type="text" pInputText formControlName="firstName" />
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">ชื่อ</p>
+        <input
+          class="col-12"
+          type="text"
+          pInputText
+          formControlName="firstName"
+        />
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">นามสกุล</div>
-      <div class="col-4">
-        <input type="text" pInputText formControlName="lastName" />
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">นามสกุล</p>
+        <input
+          class="col-12"
+          type="text"
+          pInputText
+          formControlName="lastName"
+        />
       </div>
     </div>
   </form>
-  <div class="grid gap-2 mt-3 mb-3 ml-6">
+  <div class="grid align-items-center justify-content-center gap-2 mt-3 mb-5">
     <button
       pButton
       pRipple
       label="เริ่มใหม่"
+      class="p-button-secondary"
       icon="pi pi-refresh"
-      class="p-button-info"
       (click)="resetForm()"
     ></button>
     <button
@@ -57,11 +68,11 @@
       (click)="onSearch()"
     ></button>
     <button
-      class="ml-auto"
       pButton
       pRipple
       label="พิมพ์"
       icon="pi pi-print"
+      class="p-button-outlined"
       (click)="onPrint()"
     ></button>
   </div>
@@ -75,7 +86,7 @@
           label="ลบที่เลือก"
           icon="pi pi-trash"
           class="p-button-danger"
-          (click)="deleteEmployees()"
+          (click)="confirmDeleteList()"
         ></button>
         <button
           pButton
@@ -120,12 +131,25 @@
               tooltipPosition="right"
             ></button>
           </a>
+          <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-trash"
+              class="mr-2"
+              pTooltip="ลบ"
+              class="p-button-danger"
+              tooltipPosition="right"
+              (click)="confirmDelete(employee)"
+            ></button>
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="8" style="color: red">ไม่พบข้อมูลพนักงาน</td>
+        <td colspan="8" style="color: red; text-align: center">
+          ไม่พบข้อมูลพนักงาน
+        </td>
       </tr>
     </ng-template>
   </p-table>
@@ -138,3 +162,10 @@
     animationDuration=".5s"
   ></p-progressSpinner>
 </div>
+<p-confirmDialog
+  header="Confirmation"
+  icon="pi pi-exclamation-triangle"
+  [acceptLabel]="'ยืนยัน'"
+  [rejectLabel]="'ยกเลิก'"
+  rejectButtonStyleClass="p-button-outlined"
+></p-confirmDialog>

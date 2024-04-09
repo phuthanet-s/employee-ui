@@ -1,8 +1,8 @@
 <p-panel header="{{ mode }}">
   <form [formGroup]="employeeForm">
-    <div class="grid">
-      <div class="col-2">แผนก</div>
-      <div class="col-4">
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">แผนก</p>
         <p-dropdown
           placeholder="Select a Department"
           [options]="departments"
@@ -20,11 +20,11 @@
         <!-- {{employeeForm.get('department')?.valid | json}} -->
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">เพศ</div>
-      <div class="col-6">
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">เพศ</p>
         <div class="grid">
-          <div *ngFor="let item of Gender | keyvalue" class="col-2">
+          <div *ngFor="let item of Gender | keyvalue" class="col-3">
             <p-radioButton
               [value]="item.value"
               [label]="item.value | gender"
@@ -35,10 +35,10 @@
         </div>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">ชื่อ</div>
-      <div class="col-4">
-        <input type="text" pInputText formControlName="firstName" />
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">ชื่อ</p>
+        <input   class="col-12" type="text" pInputText formControlName="firstName" />
         <small
           *ngIf="employeeForm.get('firstName')?.errors?.['required']"
           id="firstName-help"
@@ -53,19 +53,14 @@
         >
           <em class="pi pi-times-circle"></em> Field has minlength
           {{employeeForm.get('firstName')?.errors?.['minlength']?.requiredLength
-
-
-
-
-
           }}.
         </small>
       </div>
     </div>
-    <div class="grid">
-      <div class="col-2">นามสกุล</div>
-      <div class="col-4">
-        <input type="text" pInputText formControlName="lastName" />
+    <div class="grid align-items-center justify-content-center">
+      <div class="col-3">
+        <p class="ml-1 mb-1">นามสกุล</p>
+        <input  class="col-12" type="text" pInputText formControlName="lastName" />
         <small
           *ngIf="employeeForm.get('lastName')?.invalid"
           id="lastName-help"
@@ -75,12 +70,13 @@
         </small>
       </div>
     </div>
-    <div class="grid gap-3 mt-2">
+    <div class="grid align-items-center justify-content-center gap-3 mt-2">
       <div class="grid-col">
         <button
           pButton
           pRipple
           label="เริ่มใหม่"
+          class="p-button-secondary"
           icon="pi pi-refresh"
           (click)="resetForm()"
         ></button>
@@ -106,11 +102,12 @@
           (click)="deleteEmployee()"
         ></button>
       </div>
-      <div class="grid-col ml-auto">
+      <div class="grid-col">
         <button
           pButton
           pRipple
           label="พิมพ์"
+          class="p-button-outlined"
           icon="pi pi-print"
           (click)="onPrint()"
         ></button>

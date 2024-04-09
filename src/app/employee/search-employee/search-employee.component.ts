@@ -3,7 +3,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { MessageService } from 'primeng/api';
+import {
+  ConfirmationService,
+  ConfirmEventType,
+  MessageService,
+} from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Department } from 'src/app/model/department';
 import { Employee } from 'src/app/model/employee';
@@ -43,7 +47,8 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     private employeeService: EmployeeService,
     private departmentService: DepartmentService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -135,7 +140,6 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
     const x = (pageWidth - textWidth) / 2;
     doc.setFontSize(fontSize);
     doc.text(title, x, 10);
-    this.loading = true;
     doc.setFontSize(14);
     const textDate =
       'วันที่/เวลา : ' + this.employeeService.getDateFormatReport;
@@ -174,7 +178,40 @@ export class SearchEmployeeComponent implements OnInit, OnDestroy {
         styles: { cellPadding: 2.5, fontSize: 18, font: 'THSarabunNew' },
       });
       doc.save(`${this.employeeService.getCurrentDate}.pdf`);
-      this.loading = false;
+    });
+  }
+
+  confirmDeleteList() {
+    this.confirmationService.confirm({
+      message: 'คุณต้องการลบข้อมูลที่เลือกใช่หรือไม่',
+      header: 'ยืนยันการลบข้อมูล',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.deleteEmployees();
+      },
+    });
+  }
+
+  confirmDelete(data: any) {
+    this.confirmationService.confirm({
+      message: 'คุณต้องการลบข้อมูลนี้ใช่หรือไม่',
+      header: 'ยืนยันการลบข้อมูล',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.deleteEmployee(data.id);
+      },
+    });
+  }
+
+  deleteEmployee(id: number) {
+    this.employeeService.deleteEmployee(id).subscribe({
+      next: (v) => {},
+      complete: () => {
+        this.onSearch();
+      },
+      error: (e) => {
+        console.error(e);
+      },
     });
   }
 }
